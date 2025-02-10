@@ -16,7 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from events.views import Create,Read,Update,Delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('create/', Create.as_view(), name='create'),
+    path('read/',Read.as_view(), name='read'),
+    path('update/<int:pk>',Update.as_view(),name='update'),
+    path('delete/<int:pk>',Delete.as_view(),name='delete')
 ]
