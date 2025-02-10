@@ -15,3 +15,31 @@ class Create(View):
       EventModel.objects.create(**form.cleaned_data)
       form = EventForm
     return render(request, 'create.html', {'form':form})
+
+class Read(View):
+  def get(self, request):
+    data = EventModel.objects.all()
+    return render(request, 'read.html', {'data':data})
+
+
+class Update(View):
+  def get(self, request, **kwargs):
+    id = kwargs.get('pk')
+    data = EventModel.objects.get(id=id)
+    form = EventForm(instance=data)
+    return render(request, 'update.html', {'form':form})
+  
+  def post(self, request, **kwargs):
+    id = kwargs.get('pk')
+    data = EventModel.objects.get(id=id)
+    form = EventForm(request.POST, instance=data)
+    if form.is_valid():
+      form.save()
+    return render(request, 'success.html')
+  
+class Delete(View):
+  def get(self, request, **kwargs):
+    id = kwargs.get('pk')
+    data = EventModel.objects.get(id=id)
+    data.delete()
+    return render(request, 'delete.html')
